@@ -7,6 +7,7 @@ h1 {
   position: relative;
   text-align: center;
   margin-bottom: 16px;
+  font-size: 175%;
 }
 
 /* Simple Responsive Framework. */
@@ -31,9 +32,10 @@ h1 {
   border: 1px solid black;
   border-right: 0px;
   border-top: 0px;
-  width: 80px;
+  width: 100px;
   text-align: center;
   font-weight: bold;
+  font-size: 125%;
 
   /*Adjust for parent padding */
   margin-top: -10px;
