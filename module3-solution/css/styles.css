@@ -1,0 +1,108 @@
+body {
+  font-size: 16px;
+/*  color: #fff;
+  background-color: #61122f;
+  font-family: 'Oxygen', sans-serif;
+*/}
+
+/** HEADER **/
+#header-nav {
+  background-color: lightgrey;
+  color: black;
+  border-radius: 0;
+  border: 0;
+  height: 80px;
+}
+
+.navbar-brand a {
+  text-decoration: none;
+}
+
+.navbar-brand h1 { 
+  position: absolute;
+  margin-top: 0;
+  color: black
+}
+
+.navbar-brand a:hover, .navbar-brand a:focus {
+  text-decoration: none;
+}
+
+.navbar-header .icon-bar {
+  vertical-align: top;
+}
+
+.navbar-header button.navbar-toggle, .navbar-header .icon-bar {
+  /*border: 1px solid #61122f;*/
+}
+.navbar-header button.navbar-toggle {
+}
+
+#nav-list a:hover {
+  background-color: white;
+  color: darkred;
+}
+
+#nav-list {
+  margin-top: 15px;
+}
+
+.menu-entry {
+  background-color: darkred;
+  color: white;
+  text-decoration: none;
+}
+
+.menu-entry a {
+  color: white;
+}
+
+/* END HEADER */
+
+/* HOME PAGE */
+
+#menu-title {
+  padding: 10px;
+}
+
+.menu-item {
+  background-color: lightgrey;
+  height: 2000px;
+}
+
+.menu-item-title {
+  text-align: center;
+  padding: 10px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+/* END HOME PAGE */
+
+
+/********** Large devices only **********/
+@media (min-width: 1200px) {
+
+}
+
+/********** Medium devices only **********/
+@media (min-width: 992px) and (max-width: 1199px) {
+ 
+}
+
+/********** Small devices only **********/
+@media (min-width: 768px) and (max-width: 991px) {
+ 
+}
+
+/********** Extra small devices only **********/
+@media (max-width: 767px) {
+
+}
+
+/********** Super extra small devices Only :-) (e.g., iPhone 4) **********/
+@media (max-width: 479px) {
+ 
+}
+
+
+
