@@ -36,13 +36,15 @@
 		},
 		{
 			"path": "/Users/tthacher/Development/ClassProjects/html-css-js/fullstack-course4/assignments/assignment3/images"
+		},
+		{
+			"path": "/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module5-solution"
 		}
 	],
 	"settings":
 	[
 		{
-		    // The number of spaces a tab is considered equal to
-		    "tab_size": 2
+			"tab_size": 2
 		}
 	]
 }
