@@ -10,12 +10,16 @@ function LunchCheckController($scope) {
   $scope.checkList = function() {
     if(!$scope.userInput || !$scope.userInput.trim()) {
       $scope.outputMsg = "Please enter data first.";
-    }
-    else if(calculateNumberOfItems($scope.userInput) < 4){
-      $scope.outputMsg = "Enjoy!";
+      $scope.statusColor = "red";
     }
     else {
-      $scope.outputMsg = "Too Much!";
+      $scope.statusColor = "green";
+      if(calculateNumberOfItems($scope.userInput) < 4){
+        $scope.outputMsg = "Enjoy!";
+      }
+      else {
+        $scope.outputMsg = "Too Much!";
+      }
     }
   }
 }

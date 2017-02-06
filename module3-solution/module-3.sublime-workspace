@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"homeHtml",
+				"homeHtmlToInsertIntoMainPage"
+			],
+			[
+				"chosen",
+				"chosenCategoryShortName"
+			],
+			[
+				"chos",
+				"chosenCategoryShortName"
+			],
+			[
+				"random",
+				"randomCategoryShortName"
+			],
+			[
+				"home",
+				"homeHtml"
+			],
+			[
+				"build",
+				"buildAndShowHomeHTML"
+			],
+			[
+				"text",
+				"text-center"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
 				"CARD_FAM",
 				"CARD_FAM_SOCOCC"
 			],
@@ -395,6 +431,26 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 5723,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "$(function () { // Same as document.addEventListener(\"DOMContentLoaded\"...\n\n  // Same as document.querySelector(\"#navbarToggle\").addEventListener(\"blur\",...\n  $(\"#navbarToggle\").blur(function (event) {\n    var screenWidth = window.innerWidth;\n    if (screenWidth < 768) {\n      $(\"#collapsable-nav\").collapse('hide');\n    }\n  });\n});\n\n(function (global) {\n\nvar dc = {};\n\nvar homeHtmlUrl = \"snippets/home-snippet.html\";\nvar allCategoriesUrl =\n  \"https://davids-restaurant.herokuapp.com/categories.json\";\nvar categoriesTitleHtml = \"snippets/categories-title-snippet.html\";\nvar categoryHtml = \"snippets/category-snippet.html\";\nvar menuItemsUrl =\n  \"https://davids-restaurant.herokuapp.com/menu_items.json?category=\";\nvar menuItemsTitleHtml = \"snippets/menu-items-title.html\";\nvar menuItemHtml = \"snippets/menu-item.html\";\n\n// Convenience function for inserting innerHTML for 'select'\nvar insertHtml = function (selector, html) {\n  var targetElem = document.querySelector(selector);\n  targetElem.innerHTML = html;\n};\n\n// Show loading icon inside element identified by 'selector'.\nvar showLoading = function (selector) {\n  var html = \"<div class='text-center'>\";\n  html += \"<img src='images/ajax-loader.gif'></div>\";\n  insertHtml(selector, html);\n};\n\n// Return substitute of '{{propName}}'\n// with propValue in given 'string'\nvar insertProperty = function (string, propName, propValue) {\n  var propToReplace = \"{{\" + propName + \"}}\";\n  string = string\n    .replace(new RegExp(propToReplace, \"g\"), propValue);\n  return string;\n};\n\n// Remove the class 'active' from home and switch to Menu button\nvar switchMenuToActive = function () {\n  // Remove 'active' from home button\n  var classes = document.querySelector(\"#navHomeButton\").className;\n  classes = classes.replace(new RegExp(\"active\", \"g\"), \"\");\n  document.querySelector(\"#navHomeButton\").className = classes;\n\n  // Add 'active' to menu button if not already there\n  classes = document.querySelector(\"#navMenuButton\").className;\n  if (classes.indexOf(\"active\") === -1) {\n    classes += \" active\";\n    document.querySelector(\"#navMenuButton\").className = classes;\n  }\n};\n\n// On page load (before images or CSS)\ndocument.addEventListener(\"DOMContentLoaded\", function (event) {\n\n// TODO: STEP 0: Look over the code from\n// *** start ***\n// to\n// *** finish ***\n// below.\n// We changed this code to retrieve all categories from the server instead of\n// simply requesting home HTML snippet. We now also have another function\n// called buildAndShowHomeHTML that will receive all the categories from the server\n// and process them: choose random category, retrieve home HTML snippet, insert that\n// random category into the home HTML snippet, and then insert that snippet into our\n// main page (index.html).\n//\n// TODO: STEP 1: Substitute [...] below with the *value* of the function buildAndShowHomeHTML,\n// so it can be called when server responds with the categories data.\n\n// *** start ***\n// On first load, show home view\nshowLoading(\"#main-content\");\n$ajaxUtils.sendGetRequest(\n  allCategoriesUrl,\n  buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******\n  true); // Explicitely setting the flag to get JSON from server processed into an object literal\n});\n// *** finish **\n\n\n// Builds HTML for the home page based on categories array\n// returned from the server.\nfunction buildAndShowHomeHTML (categories) {\n\n  // Load home snippet page\n  $ajaxUtils.sendGetRequest(\n    homeHtmlUrl,\n    function (homeHtml) {\n\n      // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'\n      // Pay attention to what type of data that function returns vs what the chosenCategoryShortName\n      // variable's name implies it expects.\n      var chosenCategoryShortName = chooseRandomCategory(categories).short_name;\n\n\n      // TODO: STEP 3: Substitute {{randomCategoryShortName}} in the home html snippet with the\n      // chosen category from STEP 2. Use existing insertProperty function for that purpose.\n      // Look through this code for an example of how to do use the insertProperty function.\n\n      // WARNING! You are inserting something that will have to result in a valid Javascript\n      // syntax because the substitution of {{randomCategoryShortName}} becomes an argument\n      // being passed into the $dc.loadMenuItems function. Think about what that argument needs\n      // to look like. For example, a valid call would look something like this:\n      // $dc.loadMenuItems('L')\n      // Hint: you need to surround the chosen category short name with something before inserting\n      // it into the home html snippet.\n      //\n      chosenCategoryShortName = \"\\'\" + chosenCategoryShortName + \"\\'\";\n      var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml, \"randomCategoryShortName\", chosenCategoryShortName);\n\n      console.log(homeHtmlToInsertIntoMainPage);\n      // TODO: STEP 4: Insert the the produced HTML in STEP 3 into the main page\n      // Use the existing insertHtml function for that purpose. Look through this code for an example\n      // of how to do that.\n      // ....\n      insertHtml(\"#main-content\", homeHtmlToInsertIntoMainPage);\n\n    },\n    false); // False here because we are getting just regular HTML from the server, so no need to process JSON.\n}\n\n\n// Given array of category objects, returns a random category object.\nfunction chooseRandomCategory (categories) {\n  // Choose a random index into the array (from 0 inclusively until array length (exclusively))\n  var randomArrayIndex = Math.floor(Math.random() * categories.length);\n\n  // return category object with that randomArrayIndex\n  return categories[randomArrayIndex];\n}\n\n\n// Load the menu categories view\ndc.loadMenuCategories = function () {\n  showLoading(\"#main-content\");\n  $ajaxUtils.sendGetRequest(\n    allCategoriesUrl,\n    buildAndShowCategoriesHTML);\n};\n\n\n// Load the menu items view\n// 'categoryShort' is a short_name for a category\ndc.loadMenuItems = function (categoryShort) {\n  showLoading(\"#main-content\");\n  $ajaxUtils.sendGetRequest(\n    menuItemsUrl + categoryShort,\n    buildAndShowMenuItemsHTML);\n};\n\n\n// Builds HTML for the categories page based on the data\n// from the server\nfunction buildAndShowCategoriesHTML (categories) {\n  // Load title snippet of categories page\n  $ajaxUtils.sendGetRequest(\n    categoriesTitleHtml,\n    function (categoriesTitleHtml) {\n      // Retrieve single category snippet\n      $ajaxUtils.sendGetRequest(\n        categoryHtml,\n        function (categoryHtml) {\n          // Switch CSS class active to menu button\n          switchMenuToActive();\n\n          var categoriesViewHtml =\n            buildCategoriesViewHtml(categories,\n                                    categoriesTitleHtml,\n                                    categoryHtml);\n          insertHtml(\"#main-content\", categoriesViewHtml);\n        },\n        false);\n    },\n    false);\n}\n\n\n// Using categories data and snippets html\n// build categories view HTML to be inserted into page\nfunction buildCategoriesViewHtml(categories,\n                                 categoriesTitleHtml,\n                                 categoryHtml) {\n\n  var finalHtml = categoriesTitleHtml;\n  finalHtml += \"<section class='row'>\";\n\n  // Loop over categories\n  for (var i = 0; i < categories.length; i++) {\n    // Insert category values\n    var html = categoryHtml;\n    var name = \"\" + categories[i].name;\n    var short_name = categories[i].short_name;\n    html =\n      insertProperty(html, \"name\", name);\n    html =\n      insertProperty(html,\n                     \"short_name\",\n                     short_name);\n    finalHtml += html;\n  }\n\n  finalHtml += \"</section>\";\n  return finalHtml;\n}\n\n\n\n// Builds HTML for the single category page based on the data\n// from the server\nfunction buildAndShowMenuItemsHTML (categoryMenuItems) {\n  // Load title snippet of menu items page\n  $ajaxUtils.sendGetRequest(\n    menuItemsTitleHtml,\n    function (menuItemsTitleHtml) {\n      // Retrieve single menu item snippet\n      $ajaxUtils.sendGetRequest(\n        menuItemHtml,\n        function (menuItemHtml) {\n          // Switch CSS class active to menu button\n          switchMenuToActive();\n\n          var menuItemsViewHtml =\n            buildMenuItemsViewHtml(categoryMenuItems,\n                                   menuItemsTitleHtml,\n                                   menuItemHtml);\n          insertHtml(\"#main-content\", menuItemsViewHtml);\n        },\n        false);\n    },\n    false);\n}\n\n\n// Using category and menu items data and snippets html\n// build menu items view HTML to be inserted into page\nfunction buildMenuItemsViewHtml(categoryMenuItems,\n                                menuItemsTitleHtml,\n                                menuItemHtml) {\n\n  menuItemsTitleHtml =\n    insertProperty(menuItemsTitleHtml,\n                   \"name\",\n                   categoryMenuItems.category.name);\n  menuItemsTitleHtml =\n    insertProperty(menuItemsTitleHtml,\n                   \"special_instructions\",\n                   categoryMenuItems.category.special_instructions);\n\n  var finalHtml = menuItemsTitleHtml;\n  finalHtml += \"<section class='row'>\";\n\n  // Loop over menu items\n  var menuItems = categoryMenuItems.menu_items;\n  var catShortName = categoryMenuItems.category.short_name;\n  for (var i = 0; i < menuItems.length; i++) {\n    // Insert menu item values\n    var html = menuItemHtml;\n    html =\n      insertProperty(html, \"short_name\", menuItems[i].short_name);\n    html =\n      insertProperty(html,\n                     \"catShortName\",\n                     catShortName);\n    html =\n      insertItemPrice(html,\n                      \"price_small\",\n                      menuItems[i].price_small);\n    html =\n      insertItemPortionName(html,\n                            \"small_portion_name\",\n                            menuItems[i].small_portion_name);\n    html =\n      insertItemPrice(html,\n                      \"price_large\",\n                      menuItems[i].price_large);\n    html =\n      insertItemPortionName(html,\n                            \"large_portion_name\",\n                            menuItems[i].large_portion_name);\n    html =\n      insertProperty(html,\n                     \"name\",\n                     menuItems[i].name);\n    html =\n      insertProperty(html,\n                     \"description\",\n                     menuItems[i].description);\n\n    // Add clearfix after every second menu item\n    if (i % 2 !== 0) {\n      html +=\n        \"<div class='clearfix visible-lg-block visible-md-block'></div>\";\n    }\n\n    finalHtml += html;\n  }\n\n  finalHtml += \"</section>\";\n  return finalHtml;\n}\n\n\n// Appends price with '$' if price exists\nfunction insertItemPrice(html,\n                         pricePropName,\n                         priceValue) {\n  // If not specified, replace with empty string\n  if (!priceValue) {\n    return insertProperty(html, pricePropName, \"\");\n  }\n\n  priceValue = \"$\" + priceValue.toFixed(2);\n  html = insertProperty(html, pricePropName, priceValue);\n  return html;\n}\n\n\n// Appends portion name in parens if it exists\nfunction insertItemPortionName(html,\n                               portionPropName,\n                               portionValue) {\n  // If not specified, return original string\n  if (!portionValue) {\n    return insertProperty(html, portionPropName, \"\");\n  }\n\n  portionValue = \"(\" + portionValue + \")\";\n  html = insertProperty(html, portionPropName, portionValue);\n  return html;\n}\n\n\nglobal.$dc = dc;\n\n})(window);\n",
+			"file": "/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module5-solution/js/script.js",
+			"file_size": 11406,
+			"file_write_time": 131306177200000000,
+			"settings":
+			{
+				"buffer_size": 11455,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -403,8 +459,8 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
-		"last_filter": "Packag",
+		"height": 87.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -552,8 +608,20 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/Users/tthacher/Development/ClassProjects/html-css-js/fullstack-course4/assignments/assignment3/images",
+		"/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module5-solution",
+		"/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module5-solution/js",
+		"/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module5-solution/snippets"
+	],
 	"file_history":
 	[
+		"/Users/tthacher/Downloads/angular.min.js",
+		"/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module3-solution/css/styles.css",
+		"/Users/tthacher/Development/Avl/SimpliCity_files/app.min-1fa78d2b.js",
+		"/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module3-solution/module-3.sublime-project",
+		"/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module3-solution/index.html",
 		"/Users/tthacher/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
 		"/Users/tthacher/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
 		"/Users/tthacher/work/vobs/ots/development/CommonPlatforms/SoftwareServices/T6100/src/T6100_MteraShelfIf.cpp",
@@ -676,16 +744,11 @@
 		"/Q/development/CommonPlatforms/ControllerServices/Agent/Equipment/src/EQ_Menu.cpp",
 		"/Q/development/Agent/Equipment/EQ_Def.h",
 		"/Q/development/tools/EON/eonsimlib/eonsimSocketQueue.cpp",
-		"/Q/development/PacketServices/psmsg/erpsmsgdefs.h",
-		"/Q/development/CardServices/DSC/DSC_Shelf.h",
-		"/Q/development/CoreServices/SCSA/common/SCSAException.h",
-		"/Q/development/STPM/Apps/FC/CardServices/SCSA/src/SCSA_SubApplicationOnController.cpp",
-		"/Q/development/CardServices/SCSA/SCSA_UpdateCspiiNotificationRegion.h",
-		"/Q/development/SoftwareServices/devices/cots/dune/v3/DuneDriver/SAND/Utils/src/sand_os_lnx_dhrp_interface.c"
+		"/Q/development/PacketServices/psmsg/erpsmsgdefs.h"
 	],
 	"find":
 	{
-		"height": 22.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -700,6 +763,15 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"insertHtml",
+			"insertProperty",
+			"allCategoriesUrl",
+			"categories",
+			": error",
+			"<div class=\"menu-entry\">",
+			"ist-item",
+			"list-item",
+			"id",
 			"/svn/tthacher",
 			"CD20",
 			"SetSubCardType",
@@ -818,16 +890,7 @@
 			"node",
 			"Node",
 			"ConstNodeIterator",
-			"NodeIterator",
-			"m_node",
-			"Id=",
-			"PartType=\"Card\"",
-			"TypeMismatch",
-			"aShelfImp",
-			"myId",
-			"DSC_ShelfConfigurations",
-			"DSC_Shelves",
-			"GetDscAppI"
+			"NodeIterator"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -859,8 +922,69 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5723,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1257,
+								1257
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/tthacher/Development/ClassProjects/html-css-js/eezlebrot.github.io/module5-solution/js/script.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5730,
+								5730
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 933.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -870,7 +994,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 29.0
 	},
 	"layout":
 	{
@@ -1496,7 +1620,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 218.0,
 	"status_bar_visible": true,
 	"template_settings":

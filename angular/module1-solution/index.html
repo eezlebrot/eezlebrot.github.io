@@ -11,16 +11,19 @@
 <body ng-app="LunchCheck">
    <div class="container" ng-controller="LunchCheckController">
      <h1>Lunch Checker</h1>
-
+         <div>
+           Empty items such as ',,' or ', ,' will NOT be counted!
+         </div>
          <div class="form-group">
              <input id="lunch-menu" type="text" ng-model="userInput"
              placeholder="list comma separated dishes you usually have for lunch"
-             class="form-control">
+             class="form-control" style="border-color:{{statusColor}}">
          </div>
+
          <div class="form-group">
              <button class="btn btn-default" ng-click="checkList()">Check If Too Much</button>
          </div>
-         <div class="form-group message">
+         <div class="form-group message" style="color:{{statusColor}}">
            {{outputMsg}}
          </div>
    </div>
