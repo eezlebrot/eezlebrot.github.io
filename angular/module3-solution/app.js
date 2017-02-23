@@ -22,6 +22,7 @@ function NarrowItDownController($scope, MenuSearchService) {
     }
     else {
       $scope.showError = true;
+      $scope.foundItems = [];
     }
   }
 
