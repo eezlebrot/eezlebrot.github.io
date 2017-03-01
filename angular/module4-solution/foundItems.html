@@ -1,0 +1,19 @@
+
+<div class="found-items">
+<ul>
+   <li ng-repeat="item in foundItems">
+     <div>
+       <span>
+         <div id="item-row1">
+           <div id="item-short" class="item">{{item.short_name}}</div>
+           <div id="item-name" class="item">{{item.name}}</div>
+         </div>
+         <div id="item-description" class="item">{{item.description}}</div>
+       </span>
+       <span style="height:36px;">
+         <button style="height:36px;" ng-click="removeItem({index: $index})">Don't want this one!</button>
+       </span>
+     </div>
+  </li>
+</ul>
+</div>
