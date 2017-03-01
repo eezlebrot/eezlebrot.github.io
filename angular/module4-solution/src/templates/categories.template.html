@@ -1,0 +1,7 @@
+<div>
+  <h2>Check out our Categories:</h2>
+  <div ng-repeat="item in $ctrl.dbg">{{item}}</div>
+  <div ng-repeat="item in $ctrl.catItems">
+    <a ui-sref="items({categoryId: item.short_name})"><span>{{item.name}}</span></a>
+  </div>
+</div>

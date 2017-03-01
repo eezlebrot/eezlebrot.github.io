@@ -1,0 +1,7 @@
+<div>
+  <h2>Category items:</h2>
+  <div ng-repeat="item in $ctrl.menuItems">
+    <span>{{item.name}}</span>
+    <span ng-show="item.description">- {{item.description}}</span>
+  </div>
+</div>
