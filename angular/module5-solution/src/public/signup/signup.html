@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-sm-7 text-center">
-      <button ng-disabled="signupForm.$invalid" ng-click="signupCtrl.submit(signupf)">Submit</button>
+      <button ng-disabled="signupf.$invalid" ng-click="signupCtrl.submit(signupf)">Submit</button>
     </div>
 
     <div class="submit-success" ng-show="signupCtrl.submitSuccess">Thanks {{signupCtrl.lastUser}}! Your submission was successful!!</div>
