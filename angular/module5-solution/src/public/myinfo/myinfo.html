@@ -1,0 +1,25 @@
+<div class="container" ng-controller="MyInfoController as myInfoCtrl">
+  <div ng-show="myInfoCtrl.errorMsg"><h3>Not Signed Up Yet. <a ui-sref="public.signup">Sign Up Now!</a></h3></div>
+  <div ng-hide="myInfoCtrl.errorMsg">
+    <div>
+      <span>User Name:</span>
+      <span>{{myInfoCtrl.user.firstName}} {{myInfoCtrl.user.lastName}}</span>
+    </div>
+    <div>
+      <span>Email Address:</span>
+      <span>{{myInfoCtrl.user.emailAddress}}</span>
+    </div>
+    <div>
+      <span>Phone Number:</span>
+      <span>{{myInfoCtrl.user.phoneNumber}}</span>
+    </div>
+    <div>
+      <div>
+        Favorite Dish:
+      </div>
+      <div>
+        <menu-item menu-item="myInfoCtrl.menuItem"></menu-item>
+      </div>
+    </div>
+  </div>
+</div>

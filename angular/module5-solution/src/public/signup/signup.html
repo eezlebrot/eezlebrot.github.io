@@ -1,0 +1,47 @@
+<div class="container signup" ng-controller="SignupController as signupCtrl">
+
+  <form novalidate name="signupf">
+    <div class="col-sm-7">
+      <label>First Name:</label>
+      <input type="text" name="firstName" ng-model=signupCtrl.user.firstName ng-change="signupCtrl.resetSubmitMsg()" required>
+    </div>
+
+    <div class="col-sm-7">
+      <label>Last Name:</label>
+      <input type="text" name="lastName" ng-model=signupCtrl.user.lastName required>
+    </div>
+
+    <div class="col-sm-7">
+      <label>Email: </label>
+      <input 
+        type="email" 
+        name="emailAddress" 
+        ng-model="signupCtrl.user.emailAddress"
+        required>
+    </div>
+
+    <div class="col-sm-7">
+      <label>Phone: </label>
+      <input 
+        type="text" 
+        name="phoneNumber" 
+        ng-model="signupCtrl.user.phoneNumber" 
+        pattern="(\d{3})-(\d{3})-(\d{4})"
+        placeholder="###-###-####" 
+        required>
+    </div>
+
+    <div class="col-sm-7">
+      <label>Favorite Dish:</label>
+      <input type="text" name="favoriteDish" ng-model="signupCtrl.user.favoriteDish" required>
+      <span ng-show="signupCtrl.errorMsg">No such menu number exists</span>
+    </div>
+
+    <div class="col-sm-7 text-center">
+      <button ng-disabled="signupForm.$invalid" ng-click="signupCtrl.submit(signupf)">Submit</button>
+    </div>
+
+    <div class="submit-success" ng-show="signupCtrl.submitSuccess">Thanks {{signupCtrl.lastUser}}! Your submission was successful!!</div>
+
+  </form>
+</div>
